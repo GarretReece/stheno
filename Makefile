@@ -9,7 +9,6 @@ OBJECTS = $(subst .cpp,.o,$(SOURCES))
 
 TARGET = ships
 
-
 $(TARGET): $(OBJECTS)
 	$(CC) $(CPPFLAGS) -o $@ $(OBJECTS) $(LDFLAGS)
 
@@ -27,3 +26,6 @@ clean:
 
 stupidSnake: glStupidSnakeGlut.cpp
 	$(CC) -ggdb -o $@ $< $(LDFLAGS)
+
+quaternion_rotate: quaternion_rotate.cpp src/quaternion.cpp
+	$(CC) -o $@ $(CPPFLAGS) quaternion_rotate.cpp src/quaternion.cpp src/matrix4d.cpp src/vector3f.cpp src/vector2f.cpp $(LDFLAGS)
