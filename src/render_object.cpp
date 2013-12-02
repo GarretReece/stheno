@@ -1,6 +1,6 @@
 #include "render_object.h"
 
-render_object::render_object()
+render_object::render_object():
 scale(1.0, 1.0, 1.0)
 { }
 

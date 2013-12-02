@@ -1,7 +1,6 @@
 CC = g++
 SOURCES = vector2f.cpp vector2s.cpp vector3f.cpp vector3s.cpp quaternion.cpp matrix4d.cpp render_object.cpp ship.cpp main.cpp
 CPPFLAGS += -Wall $(INCLUDES)
-LDFLAGS = -framework OpenGL -framework GLUT
 VPATH = src include
 INCLUDES= -Iinclude
 
@@ -22,10 +21,24 @@ release: $(TARGET)
 
 .PHONY:
 clean:
-	rm -rf $(OBJECTS) $(TARGET)
+	$(RM) $(OBJECTS) $(TARGET)
 
 stupidSnake: glStupidSnakeGlut.cpp
 	$(CC) -ggdb -o $@ $< $(LDFLAGS)
 
 quaternion_rotate: quaternion_rotate.cpp src/quaternion.cpp
 	$(CC) -o $@ $(CPPFLAGS) quaternion_rotate.cpp src/quaternion.cpp src/matrix4d.cpp src/vector3f.cpp src/vector2f.cpp $(LDFLAGS)
+
+#OS detection and handling code here
+ifeq ($(OS),Windows_NT)
+ RM := del
+ LDFLAGS += -L"C:\Program Files\Common Files\MinGW\freeglut\lib" -lfreeglut -lglu32 -lopengl32 -Wl,--subsystem,windows
+ CPPFLAGS += -m32
+else
+ UNAME_S := $(shell uname -s)
+ ifeq ($(UNAME_S),Darwin)
+  LDFLAGS += -framework OpenGL -framework GLUT
+ else ifeq ($(UNAME_S),Linux)
+  LDFLAGS += -lopengl -lglut
+ endif
+endif
