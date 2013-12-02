@@ -19,6 +19,7 @@ int count = -1;
 bool bDown = false;		//is left mouse button down?
 timeval last_frame_time;
 double frame_time = 1000000.0 / 60.0;
+int range = 16;
 
 struct pVect {
 	short x,y;
@@ -111,9 +112,11 @@ void drawFrame() {
 	pList.pop_front();
 	pVect foo(pList.back());
 	if (bDown) {
-		foo.x += (rand() % 16) * (foo.x - bVect.x < 0 ? 1 : -1);
-		foo.y += (rand() % 16) * (foo.y - bVect.y < 0 ? 1 : -1);
+		range++;
+		foo.x += (rand() % range) * (foo.x - bVect.x < 0 ? 1 : -1);
+		foo.y += (rand() % range) * (foo.y - bVect.y < 0 ? 1 : -1);
 	} else {
+		range = 16;
 		foo.x += (rand() % 32) - 16;
 		foo.y += (rand() % 32) - 16;
 	}
