@@ -9,6 +9,7 @@
 
 #include <list>
 #include "vector3f.h"
+#include "quaternion.h"
 
 class render_object
 {
@@ -25,7 +26,7 @@ class render_object
 		virtual void remove_child(render_object *child);
 
 		vector3f translate;
-		vector3f rotate;
+		quaternion rotate;
 		vector3f scale;
 
 	private:

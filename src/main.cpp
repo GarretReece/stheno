@@ -9,6 +9,7 @@
 
 #include "ship.h"
 #include "render_object.h"
+#include "quaternion.h"
 
 double current_time_in_sec();
 
@@ -34,6 +35,7 @@ void init_ship_position()
 {
 	s = new ship();
 	s->translate += vector3f(128, 128, 0);
+	s->rotate = quaternion::from_axis(vector3f(0,0,1),3.1415f/2.0f);
 	scene_root.add_child(s);
 }
 

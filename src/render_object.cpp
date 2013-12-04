@@ -23,9 +23,7 @@ void render_object::pre_render()
 	glPushMatrix();
 	glScalef(scale[0], scale[1], scale[2]);
 	glTranslatef(translate[0], translate[1], translate[2]);
-	glRotatef(rotate[0], 1.0, 0.0, 0.0);
-	glRotatef(rotate[1], 0.0, 1.0, 0.0);
-	glRotatef(rotate[2], 0.0, 0.0, 1.0);
+	glMultMatrixf(rotate.to_matrix().data);
 };
 
 void render_object::post_render()
