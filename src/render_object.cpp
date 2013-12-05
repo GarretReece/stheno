@@ -35,6 +35,10 @@ void render_object::render()
 {
 }
 
+void render_object::integrate(double t, double dt)
+{
+}
+
 void render_object::add_child(render_object *child)
 {
 	children.push_back(child);

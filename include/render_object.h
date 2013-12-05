@@ -22,6 +22,8 @@ class render_object
 		virtual void render();
 		virtual void post_render();
 
+		virtual void integrate(double, double);
+
 		virtual void add_child(render_object *child);
 		virtual void remove_child(render_object *child);
 

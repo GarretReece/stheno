@@ -20,8 +20,13 @@ class quaternion
 	void normalize();
 
 	quaternion conjugate() const;
+
 	quaternion operator*(const quaternion &rhs) const;
 	vector3f operator*(const vector3f &rhs) const;
+
+	quaternion operator*(const float rhs) const;
+	friend quaternion operator*(const float a, const quaternion &b);
+
 	quaternion operator+(const quaternion &rhs) const;
 
 	matrix4d to_matrix() const;

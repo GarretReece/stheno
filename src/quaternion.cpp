@@ -75,6 +75,16 @@ vector3f quaternion::operator*(const vector3f &rhs) const
 	return vector3f(resQuat.x, resQuat.y, resQuat.z);
 }
 
+quaternion quaternion::operator*(const float rhs) const
+{
+	return quaternion(w*rhs, x*rhs, y*rhs, z*rhs);
+}
+
+quaternion operator*(const float a, const quaternion &b)
+{
+	return quaternion(a*b.w, a*b.x, a*b.y, a*b.z);
+}
+
 matrix4d quaternion::to_matrix() const
 {
 	double x2 = x * x;

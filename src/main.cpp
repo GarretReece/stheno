@@ -11,8 +11,6 @@
 #include "render_object.h"
 #include "quaternion.h"
 
-double current_time_in_sec();
-
 int wX = 512, wY = 512;
 render_object scene_root;
 ship *s;
@@ -20,9 +18,7 @@ ship *s;
 double t = 0.0;
 const double dt = 0.01;
 
-double current_time = current_time_in_sec();
-double accumulator = 0.0;
-
+double current_time, accumulator = 0.0;
 
 double current_time_in_sec()
 {
@@ -31,12 +27,38 @@ double current_time_in_sec()
 	return a.tv_sec + (a.tv_usec/1000000);
 }
 
-void init_ship_position()
+void init()
 {
+	current_time = current_time_in_sec();
+
 	s = new ship();
 	s->translate += vector3f(128, 128, 0);
 	s->rotate = quaternion::from_axis(vector3f(0,0,1),3.1415f/2.0f);
 	scene_root.add_child(s);
+}
+
+void simulate()
+{
+	double new_time = current_time_in_sec();
+	double frame_time = new_time = current_time;
+	if (frame_time > 0.25) frame_time = 0.25;
+	current_time = new_time;
+
+	accumulator += frame_time;
+
+	while (accumulator >= dt)
+	{
+		//set previous state = current state
+		//call integrate(current state, t, dt)
+		t += dt;
+		accumulator -= dt;
+	}
+
+	const double alpha = accumulator / dt;
+	//interpolate: State state = current_state * alpha + previous_state * (1.0-alpha)
+
+	glutPostRedisplay();
+
 }
 
 void drawFrame()
@@ -70,14 +92,14 @@ int main(int argc, char **argv)
 	glutInitWindowSize(wX, wY);
 	glutCreateWindow("SHIPS");
 
-	init_ship_position();
+	init();
 
 	glutDisplayFunc(drawFrame);
 	glutReshapeFunc(changeSize);
 	//glutMotionFunc(processMouseMovement);
 	//glutPassiveMotionFunc(processMouseMovement);
 	//glutMouseFunc(processMouseClicks);
-	glutIdleFunc(drawFrame);
+	glutIdleFunc(simulate);
 	glutMainLoop();
 	return 1;
 }
