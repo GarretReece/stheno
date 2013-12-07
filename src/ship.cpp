@@ -10,3 +10,7 @@ void ship::render()
 		glVertex2f(-50, 0.0);
 	glEnd();
 }
+
+void ship::integrate(double t, double dt)
+{
+}

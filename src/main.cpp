@@ -11,9 +11,8 @@
 #include "render_object.h"
 #include "quaternion.h"
 
-int wX = 512, wY = 512;
+int wX = 1024, wY = 768;
 render_object scene_root;
-ship *s;
 
 double t = 0.0;
 const double dt = 0.01;
@@ -31,7 +30,7 @@ void init()
 {
 	current_time = current_time_in_sec();
 
-	s = new ship();
+	ship *s = new ship();
 	s->translate += vector3f(128, 128, 0);
 	s->rotate = quaternion::from_axis(vector3f(0,0,1),3.1415f/2.0f);
 	scene_root.add_child(s);
@@ -57,6 +56,7 @@ void simulate()
 	const double alpha = accumulator / dt;
 	//interpolate: State state = current_state * alpha + previous_state * (1.0-alpha)
 
+	//render(state);
 	glutPostRedisplay();
 
 }

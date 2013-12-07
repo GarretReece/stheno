@@ -2,7 +2,7 @@
 #define _ship_h_
 
 #include "render_object.h"
-#include "physics_state.h"
+#include "physics_object.h"
 
 class ship: public render_object
 {
@@ -11,7 +11,7 @@ class ship: public render_object
 	virtual void integrate(double, double);
 
 	physics_state state;
-	physics_derivatives derivatives;
+	physics_derivative derivatives;
 };
 
 #endif

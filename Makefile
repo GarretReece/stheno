@@ -33,6 +33,7 @@ quaternion_rotate: quaternion_rotate.cpp src/quaternion.cpp
 ifeq ($(OS),Windows_NT)
  RM := del
  LDFLAGS += -L"C:\Program Files\Common Files\MinGW\freeglut\lib" -lfreeglut -lglu32 -lopengl32 -Wl,--subsystem,windows
+ INCLUDES += -I"C:\Program Files\Common Files\MinGW\freeglut\include"
  CPPFLAGS += -m32
 else
  UNAME_S := $(shell uname -s)
