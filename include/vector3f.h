@@ -46,4 +46,5 @@ protected:
 	double x_,y_,z_,epsilon;
 };
 
+vector3f operator*(double a, const vector3f &b);
 #endif

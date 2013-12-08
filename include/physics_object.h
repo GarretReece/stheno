@@ -1,8 +1,14 @@
 #ifndef _physics_object_h_
 #define _physics_object_h_
 
-class physics_state
+#include "vector3f.h"
+#include "quaternion.h"
+#include "render_object.h"
+
+struct physics_state
 {
+	physics_state();
+
 	//primary
 	vector3f position;
 	vector3f momentum;
@@ -17,20 +23,13 @@ class physics_state
 	//constant
 	float mass;
 	float inverseMass;
-	float intertia;
+	float inertia;
 	float inverse_inertia;
 
-	void recalculate()
-	{
-		velocity = momentum * inverseMass;
-
-		angular_velocity = angular_momentum * inverse_inertia;
-		orientation.normalize();
-		spin = 0.5f * quaternion(0, angular_velocity) * orientation;
-	}
+	void recalculate();
 };
 
-class physics_derivative
+struct physics_derivative
 {
 	vector3f velocity;
 	vector3f force;
@@ -45,12 +44,19 @@ class physics_object : public render_object
 	void integrate(physics_state &state, float t, float dt);
 	physics_derivative evaluate(physics_state initial, float t, float dt, const physics_derivative &d);
 
-	void apply_forces(physics_state &state, float t, physics_derivative &output);
+	virtual void apply_forces(physics_state &state, float t, physics_derivative &output);
 
-	void update_physics(float t, float dt);
-	virtual void pre_render();
-	virtual void render();
+	virtual void update(float t, float dt);
 
-	physics_state current, previous;
+	virtual void pre_render(float);
+	virtual void post_render(float);
+
+	virtual vector3f& translate();
+	virtual quaternion& rotate();
+
+	physics_state current, previous, interpolated;
+
 };
+
+physics_state interpolate(const physics_state &a, const physics_state &b, float alpha);
 #endif

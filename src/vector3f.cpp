@@ -62,6 +62,11 @@ vector3f vector3f::operator *(const double &rhs) const {
 	return product;
 }
 
+vector3f operator*(double a, const vector3f &b)
+{
+	return vector3f(a*b[0], a*b[1], a*b[2]);
+}
+
 vector3f &vector3f::operator *=(const int &rhs) {
 	*this = *this * rhs;
 	return *this;

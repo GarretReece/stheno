@@ -85,6 +85,46 @@ quaternion operator*(const float a, const quaternion &b)
 	return quaternion(a*b.w, a*b.x, a*b.y, a*b.z);
 }
 
+quaternion quaternion::operator+(const quaternion &b) const
+{
+	return quaternion(w+b.w, x+b.x, y+b.y, z+b.z);
+}
+
+quaternion &quaternion::operator+=(const quaternion &b)
+{
+	w += b.w;
+	x += b.x;
+	y += b.y;
+	z += b.z;
+	return *this;
+}
+
+quaternion quaternion::slerp(const quaternion &b, const float t) const
+{
+	//assert(t>=0);
+	//assert(t<=1);
+
+	float flip = 1;
+
+	float cosine = w*b.w + x*b.x + y*b.y + z*b.z;
+
+	if (cosine<0) 
+	{ 
+		cosine = -cosine; 
+		flip = -1; 
+	} 
+
+	if ((1-cosine)<TOLERANCE) 
+		return (*this) * (1-t) + b * (t*flip); 
+
+	float theta = (float)acos(cosine); 
+	float sine = (float)sin(theta); 
+	float beta = (float)sin((1-t)*theta) / sine; 
+	float alpha = (float)sin(t*theta) / sine * flip; 
+
+	return *this * beta + b * alpha; 
+}
+
 matrix4d quaternion::to_matrix() const
 {
 	double x2 = x * x;

@@ -4,14 +4,12 @@
 #include "render_object.h"
 #include "physics_object.h"
 
-class ship: public render_object
+class ship: public physics_object
 {
 	public:
-	virtual void render();
-	virtual void integrate(double, double);
+	virtual void render(float);
+	virtual void apply_forces(physics_state &state, float t, physics_derivative &output);
 
-	physics_state state;
-	physics_derivative derivatives;
 };
 
 #endif

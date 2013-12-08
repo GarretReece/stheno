@@ -17,21 +17,29 @@ class render_object
 		render_object();
 		virtual ~render_object();
 
-		virtual void draw();
-		virtual void pre_render();
-		virtual void render();
-		virtual void post_render();
+		virtual void draw(float alpha = 1.0f);
+		virtual void draw_children(float alpha);
 
-		virtual void integrate(double, double);
+		virtual void pre_render(float);
+		virtual void render(float);
+		virtual void post_render(float);
+
+		virtual void update(float, float);
+		virtual void update_children(float, float);
 
 		virtual void add_child(render_object *child);
 		virtual void remove_child(render_object *child);
 
-		vector3f translate;
-		quaternion rotate;
-		vector3f scale;
+		virtual vector3f& translate();
+		virtual quaternion& rotate();
+		virtual vector3f& scale();
+	
+		bool active;
 
 	private:
 		std::list<render_object*> children;
+		vector3f _translate;
+		quaternion _rotate;
+		vector3f _scale;
 };
 #endif

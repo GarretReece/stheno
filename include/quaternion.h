@@ -28,6 +28,9 @@ class quaternion
 	friend quaternion operator*(const float a, const quaternion &b);
 
 	quaternion operator+(const quaternion &rhs) const;
+	quaternion &operator +=(const quaternion &rhs);
+
+	quaternion slerp(const quaternion &b, const float t) const;
 
 	matrix4d to_matrix() const;
 

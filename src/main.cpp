@@ -19,11 +19,13 @@ const double dt = 0.01;
 
 double current_time, accumulator = 0.0;
 
+float alpha = 1.0f;
+
 double current_time_in_sec()
 {
 	timeval a;
 	gettimeofday(&a, 0);
-	return a.tv_sec + (a.tv_usec/1000000);
+	return (double)a.tv_sec + (double)(a.tv_usec/1000000.0f);
 }
 
 void init()
@@ -31,15 +33,30 @@ void init()
 	current_time = current_time_in_sec();
 
 	ship *s = new ship();
-	s->translate += vector3f(128, 128, 0);
-	s->rotate = quaternion::from_axis(vector3f(0,0,1),3.1415f/2.0f);
+	s->translate() += vector3f(128, 128, 0);
+	s->current.momentum[0] = 10.0f;
+	s->current.angular_momentum[2] = 1.0f;
 	scene_root.add_child(s);
+
+	s = new ship();
+	s->translate() += vector3f(wX/2, wY/2, 0);
+	s->current.angular_momentum[2] = 0.75f;
+	s->scale() *= 0.8f;
+	scene_root.add_child(s);
+
+	ship *ss = new ship();
+	ss->translate() += vector3f(50, 50, 0);
+	ss->current.angular_momentum[2] = 0.3f;
+	ss->scale() *= 0.3f;
+	s->add_child(ss);
+	
 }
 
 void simulate()
 {
 	double new_time = current_time_in_sec();
-	double frame_time = new_time = current_time;
+	double frame_time = new_time - current_time;
+	if (frame_time <= 0.0f) return;
 	if (frame_time > 0.25) frame_time = 0.25;
 	current_time = new_time;
 
@@ -49,16 +66,14 @@ void simulate()
 	{
 		//set previous state = current state
 		//call integrate(current state, t, dt)
+		scene_root.update(t, dt);
 		t += dt;
 		accumulator -= dt;
 	}
 
-	const double alpha = accumulator / dt;
-	//interpolate: State state = current_state * alpha + previous_state * (1.0-alpha)
+	alpha = accumulator / dt;
 
-	//render(state);
 	glutPostRedisplay();
-
 }
 
 void drawFrame()
@@ -67,7 +82,7 @@ void drawFrame()
 	glLoadIdentity();
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	scene_root.draw();
+	scene_root.draw(alpha);
 	glutSwapBuffers();
 }
 
