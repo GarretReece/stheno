@@ -38,18 +38,21 @@ void init()
 	s->current.angular_momentum[2] = 1.0f;
 	scene_root.add_child(s);
 
-	s = new ship();
-	s->translate() += vector3f(wX/2, wY/2, 0);
-	s->current.angular_momentum[2] = 0.75f;
-	s->scale() *= 0.8f;
-	scene_root.add_child(s);
 
-	ship *ss = new ship();
-	ss->translate() += vector3f(50, 50, 0);
-	ss->current.angular_momentum[2] = 0.3f;
-	ss->scale() *= 0.3f;
-	s->add_child(ss);
-	
+	render_object *m = new render_object();
+	m->translate() += vector3f(wX/2, wY/2, 0);
+	scene_root.add_child(m);
+
+	s = new ship();
+	s->current.angular_momentum[2] = 15.0f;
+	s->scale() *= 0.8f;
+	m->add_child(s);
+
+	s = new ship();
+	s->translate() += vector3f(50, 50, 0);
+	s->current.angular_momentum[2] = 0.3f;
+	s->scale() *= 0.3f;
+	m->add_child(s);
 }
 
 void simulate()
