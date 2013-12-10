@@ -43,10 +43,13 @@ void init()
 	m->translate() += vector3f(wX/2, wY/2, 0);
 	scene_root.add_child(m);
 
-	s = new ship();
+	sprite *spr = new sprite("sprites/rocketship.bmp", 32, 64);
+
+	s = new ship(spr);
 	s->current.angular_momentum[2] = 15.0f;
 	s->scale() *= 0.8f;
 	m->add_child(s);
+
 
 	s = new ship();
 	s->translate() += vector3f(50, 50, 0);
