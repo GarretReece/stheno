@@ -10,7 +10,7 @@
 class sprite
 {
 	public:
-	sprite(const char *filename, unsigned int height, unsigned int width);
+	sprite(const char *filename);
 
 	unsigned int height, width;
 

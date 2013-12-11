@@ -30,32 +30,29 @@ double current_time_in_sec()
 
 void init()
 {
+	glEnable(GL_TEXTURE_2D);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnableClientState(GL_VERTEX_ARRAY);
 	current_time = current_time_in_sec();
 
-	ship *s = new ship();
-	s->translate() += vector3f(128, 128, 0);
-	s->current.momentum[0] = 10.0f;
-	s->current.angular_momentum[2] = 1.0f;
-	scene_root.add_child(s);
-
-
-	render_object *m = new render_object();
+	physics_object *m = new physics_object();
 	m->translate() += vector3f(wX/2, wY/2, 0);
+	m->current.angular_momentum[2] = -1.0f;
 	scene_root.add_child(m);
 
-	sprite *spr = new sprite("sprites/rocketship.bmp", 32, 64);
+	sprite *spr = new sprite("sprites/rocket.bmp");
 
-	s = new ship(spr);
-	s->current.angular_momentum[2] = 15.0f;
+	ship *s = new ship(spr);
+	s->translate() += vector3f(50,0,0);
+	//s->current.angular_momentum[2] = 1.0f;
 	s->scale() *= 0.8f;
 	m->add_child(s);
 
-
-	s = new ship();
-	s->translate() += vector3f(50, 50, 0);
-	s->current.angular_momentum[2] = 0.3f;
-	s->scale() *= 0.3f;
-	m->add_child(s);
+	s = new ship(spr);
+	s->translate() += vector3f(100, 200, 0);
+	s->current.angular_momentum[2] = 7.5f;
+	s->scale() *= 1.25f;
+	scene_root.add_child(s);
 }
 
 void simulate()
