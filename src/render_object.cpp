@@ -1,6 +1,7 @@
 #include "render_object.h"
 
-render_object::render_object():
+render_object::render_object(sprite *spr):
+spr(spr),
 active(true),
 _scale(1.0, 1.0, 1.0)
 { }

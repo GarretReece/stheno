@@ -13,8 +13,6 @@ class ship: public physics_object
 	virtual void apply_forces(physics_state &state, float t, physics_derivative &output);
 
 	private:
-	sprite *spr;
-
 };
 
 #endif

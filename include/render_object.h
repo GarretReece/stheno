@@ -10,11 +10,12 @@
 #include <list>
 #include "vector3f.h"
 #include "quaternion.h"
+#include "sprite.h"
 
 class render_object
 {
 	public:
-		render_object();
+		render_object(sprite *spr = NULL);
 		virtual ~render_object();
 
 		virtual void draw(float alpha = 1.0f);
@@ -35,6 +36,8 @@ class render_object
 		virtual vector3f& scale();
 	
 		bool active;
+
+		sprite *spr;
 
 	private:
 		std::list<render_object*> children;

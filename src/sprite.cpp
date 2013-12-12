@@ -2,6 +2,12 @@
 
 #include <stdio.h>
 
+#ifdef GL_BGR
+const bool needs_bgr_swap = false;
+#else
+const bool needs_bgr_swap = true;
+#endif
+
 GLuint load_bitmap(const char *);
 
 sprite::sprite(const char *filename)
@@ -61,7 +67,18 @@ GLuint load_bitmap(const char *filename)
 
 	glGenTextures( 1, &texture );
 	glBindTexture( GL_TEXTURE_2D, texture );
+
+#ifdef GL_BGR
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+#else
+	for (int i = 0; i < imageSize; i += 3)
+	{
+		unsigned char t = data[i];
+		data[i] = data[i+2];
+		data[i+2] = t;
+	}
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+#endif
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);

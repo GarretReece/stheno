@@ -41,6 +41,7 @@ struct physics_derivative
 class physics_object : public render_object
 {
 	public:
+	physics_object(sprite *spr = NULL);
 	void integrate(physics_state &state, float t, float dt);
 	physics_derivative evaluate(physics_state initial, float t, float dt, const physics_derivative &d);
 

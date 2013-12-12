@@ -44,6 +44,11 @@ physics_derivative physics_object::evaluate(physics_state state, float t, float 
 	return output;
 }
 
+physics_object::physics_object(sprite *spr):
+	render_object(spr)
+{
+}
+
 void physics_object::integrate(physics_state &state, float t, float dt)
 {
 	physics_derivative a = evaluate(state, t, 0.0f, physics_derivative());

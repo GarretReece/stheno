@@ -1,7 +1,7 @@
 #include "ship.h"
 
 ship::ship(sprite* spr):
-	spr(spr)
+	physics_object(spr)
 {
 }
 void ship::render(float)
