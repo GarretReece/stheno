@@ -12,6 +12,7 @@ class ship: public physics_object
 	virtual void render(float);
 	virtual void apply_forces(physics_state &state, float t, physics_derivative &output);
 
+	double max_velocity, max_angular_velocity;
 	private:
 };
 

@@ -1,5 +1,5 @@
 CC = g++
-SOURCES = vector2f.cpp vector2s.cpp vector3f.cpp vector3s.cpp quaternion.cpp matrix4d.cpp sprite.cpp render_object.cpp physics_object.cpp ship.cpp main.cpp
+SOURCES = vector2f.cpp vector2s.cpp vector3f.cpp vector3s.cpp quaternion.cpp matrix4d.cpp sprite.cpp render_object.cpp physics_object.cpp ship.cpp player.cpp keylistener.cpp main.cpp
 CPPFLAGS += -Wall $(INCLUDES)
 VPATH = src include
 INCLUDES= -Iinclude
@@ -32,7 +32,7 @@ quaternion_rotate: quaternion_rotate.cpp src/quaternion.cpp
 #OS detection and handling code here
 ifeq ($(OS),Windows_NT)
  RM := del
- LDFLAGS += -L"C:\Program Files\Common Files\MinGW\freeglut\lib" -lfreeglut -lglu32 -lopengl32 -Wl,--subsystem,windows
+ LDFLAGS += -L"C:\Program Files\Common Files\MinGW\freeglut\lib" -lfreeglut -lglu32 -lopengl32 #-Wl,--subsystem,windows
  INCLUDES += -I"C:\Program Files\Common Files\MinGW\freeglut\include"
  CPPFLAGS += -m32
 else

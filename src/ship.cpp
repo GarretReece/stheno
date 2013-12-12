@@ -1,7 +1,10 @@
 #include "ship.h"
+#include <limits>
 
 ship::ship(sprite* spr):
-	physics_object(spr)
+	physics_object(spr),
+	max_velocity(std::numeric_limits<double>::infinity()),
+	max_angular_velocity(std::numeric_limits<double>::infinity())
 {
 }
 void ship::render(float)
@@ -31,5 +34,10 @@ void ship::render(float)
 
 void ship::apply_forces(physics_state &state, float t, physics_derivative &output)
 {
-	
+	if (state.velocity.length() > max_velocity) state.velocity = state.velocity.normalize() * max_velocity;
+
+	if (output.velocity.length() > max_velocity) output.velocity = output.velocity.normalize() * max_velocity;
+
+	if (state.angular_velocity[2] > max_angular_velocity) state.angular_velocity[2] = max_angular_velocity;
+	if (state.angular_momentum[2] > max_angular_velocity) state.angular_momentum[2] = max_angular_velocity;
 }

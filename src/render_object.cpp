@@ -30,8 +30,8 @@ void render_object::pre_render(float)
 	glPushMatrix();
 	vector3f sc = scale(), tr = translate();
 	quaternion ro = rotate();
-	glTranslatef(tr[0], tr[1], tr[2]);
 	glMultMatrixf(ro.to_matrix().data);
+	glTranslatef(tr[0], tr[1], tr[2]);
 	glScalef(sc[0], sc[1], sc[2]);
 };
 

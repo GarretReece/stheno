@@ -67,12 +67,19 @@ quaternion quaternion::operator*(const quaternion &rhs) const
 
 vector3f quaternion::operator*(const vector3f &rhs) const
 {
+	/*
 	vector3f v = rhs.normalize();
 	quaternion vesQuat(v[0], v[1], v[2], 0.0), resQuat;
 	resQuat = vesQuat * conjugate();
 	resQuat = *this * resQuat;
 
 	return vector3f(resQuat.x, resQuat.y, resQuat.z);
+	*/
+
+	vector3f q(x,y,z);
+
+	vector3f t = 2 * q.crossprod(rhs);
+	return rhs + w * t + q.crossprod(t);
 }
 
 quaternion quaternion::operator*(const float rhs) const

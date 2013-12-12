@@ -4,12 +4,15 @@
 #include <GL/glut.h>
 #endif
 
+#include <stdio.h>
+
 #include <iostream>
 #include <sys/time.h>
 
 #include "ship.h"
 #include "render_object.h"
 #include "quaternion.h"
+#include "player.h"
 
 int wX = 1024, wY = 768;
 render_object scene_root;
@@ -20,6 +23,10 @@ const double dt = 0.01;
 double current_time, accumulator = 0.0;
 
 float alpha = 1.0f;
+
+key_state keys;
+
+player *p;
 
 double current_time_in_sec()
 {
@@ -35,24 +42,16 @@ void init()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	current_time = current_time_in_sec();
 
-	physics_object *m = new physics_object();
-	m->translate() += vector3f(wX/2, wY/2, 0);
-	m->current.angular_momentum[2] = -1.0f;
-	scene_root.add_child(m);
+	scene_root.translate() += vector3f(wX/2, wY/2, 0);
 
 	sprite *spr = new sprite("sprites/rocket.bmp");
 
-	ship *s = new ship(spr);
-	s->translate() += vector3f(50,0,0);
-	//s->current.angular_momentum[2] = 1.0f;
-	s->scale() *= 0.8f;
-	m->add_child(s);
+	p = new player(keys, spr);
+	p->translate() += vector3f(50,0,0);
+	//s->rotate() = quaternion::from_axis(vector3f(0, 0, 1), 2.0f*3.1415f);
+	//s->scale() *= 0.25f;
+	scene_root.add_child(p);
 
-	s = new ship(spr);
-	s->translate() += vector3f(100, 200, 0);
-	s->current.angular_momentum[2] = 7.5f;
-	s->scale() *= 1.25f;
-	scene_root.add_child(s);
 }
 
 void simulate()
@@ -85,6 +84,11 @@ void drawFrame()
 	glLoadIdentity();
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	quaternion player_orientation = p->rotate();
+	vector3f player_pos = p->current.velocity;
+	printf("pos(%.2f,%.2f,%.2f)   rot(%f,%f,%f,%f)\r", player_pos[0],player_pos[1],player_pos[2],player_orientation.w,player_orientation.x,player_orientation.y,player_orientation.z);
+
 	scene_root.draw(alpha);
 	glutSwapBuffers();
 }
@@ -102,6 +106,37 @@ void changeSize(int w, int h)
 	gluOrtho2D(wX,0,wY,0);	//swap around x axis to make windows and openGL coords match
 }
 
+void processNormalKeys(unsigned char key, int xx, int yy)
+{
+	if (key == 27)
+	{
+		exit(0);
+	}
+}
+
+void pressKey(int key, int xx, int yy)
+{
+	switch(key)
+	{
+		case GLUT_KEY_UP: keys.up_arrow = true; break;
+		case GLUT_KEY_DOWN: keys.down_arrow = true; break;
+		case GLUT_KEY_RIGHT: keys.right_arrow = true; break;
+		case GLUT_KEY_LEFT: keys.left_arrow = true; break;
+	}
+}
+
+void releaseKey(int key, int xx, int yy)
+{
+	switch(key)
+	{
+		case GLUT_KEY_UP: keys.up_arrow = false; break;
+		case GLUT_KEY_DOWN: keys.down_arrow = false; break;
+		case GLUT_KEY_RIGHT: keys.right_arrow = false; break;
+		case GLUT_KEY_LEFT: keys.left_arrow = false; break;
+	}
+}
+
+
 int main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
@@ -114,6 +149,10 @@ int main(int argc, char **argv)
 
 	glutDisplayFunc(drawFrame);
 	glutReshapeFunc(changeSize);
+	glutIgnoreKeyRepeat(1);
+	glutKeyboardFunc(processNormalKeys);
+	glutSpecialFunc(pressKey);
+	glutSpecialUpFunc(releaseKey);
 	//glutMotionFunc(processMouseMovement);
 	//glutPassiveMotionFunc(processMouseMovement);
 	//glutMouseFunc(processMouseClicks);
