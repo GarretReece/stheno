@@ -13,6 +13,8 @@ struct physics_state_2d
 	vector2f velocity;
 	float angular_velocity;
 
+	vector2f force;
+	double angular_force;
 }
 
 class physics_object_2d: public render_object
