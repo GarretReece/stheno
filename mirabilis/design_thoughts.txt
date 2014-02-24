@@ -1,0 +1,8 @@
+Mirabilis:
+
+- vast world
+-- multi city, caravaning or trekking between them
+- basic game: 
+-- turn based movement
+-- permadeath (rougelike without crawling)
+
