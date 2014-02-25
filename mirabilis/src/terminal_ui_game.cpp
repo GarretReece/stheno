@@ -1,10 +1,10 @@
 #include <iostream>
 #include <signal.h>
 
-#include "mirabilis/model.h"
-#include "mirabilis/input.h"
-#include "mirabilis/view.h"
-#include "mirabilis/terminal_ui.h"
+#include "model.h"
+#include "input.h"
+#include "view.h"
+#include "terminal_ui.h"
 
 int main()
 {

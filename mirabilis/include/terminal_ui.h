@@ -2,7 +2,7 @@
 #define _mirabilis_terminal_view_h_
 
 #include "view.h"
-#include "ncurses.h"
+#include <curses.h>
 
 namespace mirabilis
 {
