@@ -2,22 +2,6 @@
 
 using namespace mirabilis;
 
-const int map_x_max = 14;
-const int map_y_max = 9;
-const char *map[] = 
-{
-	"###############",
-	"#   #    #    #",
-	"#   # #       #",
-	"###     #  ## #",
-	"#  #        # #",
-	"#     #   # # #",
-	"#         # # #",
-	"#      #  # ###",
-	"#         #   #",
-	"###############",
-};
-
 model::model(): m_playing(true), 
 	m_player(::location(1,1,1))
 {
