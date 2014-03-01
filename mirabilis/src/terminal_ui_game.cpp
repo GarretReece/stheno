@@ -10,7 +10,7 @@ int main()
 {
 	mirabilis::model game;
 	mirabilis::terminal_view view(game);
-	mirabilis::terminal_controller controller(game);
+	mirabilis::terminal_controller controller;
 
 	while(game.playing())
 	{

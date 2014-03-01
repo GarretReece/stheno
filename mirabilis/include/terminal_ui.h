@@ -27,10 +27,9 @@ namespace mirabilis
 	class terminal_controller
 	{
 		public:
-		terminal_controller(model &g);
+		terminal_controller();
 		input collect_input();
 		private:
-		model &game;
 	};
 
 }

@@ -96,7 +96,7 @@ namespace mirabilis
 		return ' ';
 	};
 
-	terminal_controller::terminal_controller(model &g): game(g) { }
+	terminal_controller::terminal_controller() { }
 
 	input terminal_controller::collect_input()
 	{
